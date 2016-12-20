@@ -27,6 +27,7 @@
     "gulp-cordova": "^6.0.0",
     "html-webpack-plugin": "^2.24.1",
     "json-loader": "^0.5.4",
+    "run-sequence": "^1.2.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
