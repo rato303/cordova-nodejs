@@ -2,9 +2,6 @@ import 'babel-polyfill';
 import React, {Component} from 'react';
 import {render} from 'react-dom';
 
-require('../node_modules/onsenui/css/onsenui.css');
-require('../node_modules/onsenui/css/onsen-css-components.css');
-
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
