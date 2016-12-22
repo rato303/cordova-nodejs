@@ -1,114 +1,47 @@
 import 'babel-polyfill';
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+
+import React, { Component } from 'react';
+import { render } from 'react-dom';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import {Dialog, FlatButton, RaisedButton} from 'material-ui';
+require('font-awesome/css/font-awesome.css');
 
-class App extends Component {
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  }
+import App from './App';
+import { pages } from './pages';
 
-  handleOpen() {
-    this.setState({open: true});
-  }
+const routes = pages.map((page, index) => {
 
-  handleClose() {
-    this.setState({open: false});
-  }
+  const component = page.component;
 
-  componentDidMount() {
-    document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-  }
-
-  onDeviceReady() {
-    this.receivedEvent('deviceready');
-  }
-
-  receivedEvent(id) {
-//     var parentElement = document.getElementById(id);
-//     var listeningElement = parentElement.querySelector('.listening');
-//     var receivedElement = parentElement.querySelector('.received');
-// 
-//     listeningElement.setAttribute('style', 'display:none;');
-//     receivedElement.setAttribute('style', 'display:block;');
-
-    console.log('Received Event: ' + id);
-  }
-
-/*
-      <div>
-
-        Hello React!!!
-
-        <div className="app">
-          <h1>Apache Cordova</h1>
-          <div id="deviceready" className="blink">
-            <p className="event listening">Connecting to Device</p>
-            <p className="event received">Device is Ready</p>
-          </div>
-        </div>
-      </div>
-      */
-  render() {
-    const actionModels = [
-      {
-        label: 'Cancel',
-        keyboardFocused: false
-      },
-      {
-        label: 'Submit',
-        keyboardFocused: true
-      }
-    ];
-    const actions = actionModels.map((actionModel) => {
-      return <FlatButton label={actionModel.label}
-                         primary={true}
-                         keyboardFocused={actionModel.keyboardFocused}
-                         onTouchTap={this.handleClose.bind(this)}/>;
-    });
-    {/*
-    const actions = [
-      <FlatButton label="Cancel"
-                  primary={true}
-                  onTouchTap={this.handleClose.bind(this)}
-      />,
-      <FlatButton label="Submit"
-                  primary={true}
-                  keyboardFocused={true}
-                  onTouchTap={this.handleClose.bind(this)}
-      />
-    ];
-    */}
-
+  if (page.isIndex) {
     return (
-      <MuiThemeProvider>
-        <div>
-          <RaisedButton label="Dialog" onTouchTap={this.handleOpen.bind(this)} />
-          <Dialog title="Dialog With Actions"
-                  actions={actions}
-                  modal={false}
-                  open={this.state.open}
-                  onRequestClose={this.handleClose.bind(this)}>
-            The actions in this window were passed in as an array of React objects.
-          </Dialog>
-        </div>
-      </MuiThemeProvider>
+      <IndexRoute key={index}
+                  component={component} />
     );
   }
 
-}
+  const path = page.path;
 
-render(
-    <App />,
-    document.getElementById('root')
+  return (
+    <Route key={path}
+           path={path}
+           component={component} />
+  );
+});
+
+render((
+  <MuiThemeProvider>
+    <Router history={hashHistory}>
+      <Route path="/" component={App}>
+        {routes}
+      </Route>
+    </Router>
+  </MuiThemeProvider>
+  ), document.getElementById('root')
 );
