@@ -7,6 +7,11 @@ const runSequence = require('run-sequence');
 
 const cordova = require('gulp-cordova');
 
+const minimist = require('minimist');
+
+const mocha = require('gulp-mocha');
+const babelRegister = require('babel-register');
+
 gulp.task('init', () => {
   return runSequence(
     'webpack',
@@ -26,6 +31,18 @@ gulp.task('run', () => {
     'build',
     'cordova:run'
   );
+});
+
+gulp.task('test', () => {
+  const args = minimist(process.argv.slice(2));
+  const file = args.file ? args.file : 'src/**/*.spec.js'
+  const src = [
+    file
+  ];
+  gulp.src(src)
+    .pipe(mocha({
+      compilers: babelRegister
+    }));
 });
 
 gulp.task('webpack', () => {
