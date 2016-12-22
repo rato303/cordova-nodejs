@@ -17,3 +17,13 @@ gulp run
 ```
 gulp build
 ```
+
+# mocha test run (all)
+```
+gulp test
+```
+
+# mocha test run (single file)
+```
+gulp --file src/Hello.spec.js
+```
