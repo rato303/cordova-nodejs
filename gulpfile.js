@@ -21,6 +21,13 @@ gulp.task('build', () => {
   );
 });
 
+gulp.task('run', () => {
+  return runSequence(
+    'build',
+    'cordova:run'
+  );
+});
+
 gulp.task('webpack', () => {
   return gulp
     .src(config.entry)
@@ -41,6 +48,14 @@ gulp.task('cordova:build', () => {
   gulp.src('')
     .pipe(cordova([
       'build',
+      'browser'
+    ]));
+});
+
+gulp.task('cordova:run', () => {
+  gulp.src('')
+    .pipe(cordova([
+      'run',
       'browser'
     ]));
 });
